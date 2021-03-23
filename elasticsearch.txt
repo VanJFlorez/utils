@@ -1,0 +1,9 @@
+To retrieve all persisted data, do the following HTTP request:
+~~~
+http://localhost:9200/_search?scroll=10m&size=50
+~~~
+
+All tables (indexes)...
+http://localhost:9200/_aliases/
+
+

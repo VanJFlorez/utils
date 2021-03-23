@@ -1,0 +1,29 @@
+
+#### TOOL UTILS
+- mongo
+- sftp conn
+- curl
+- telnet
+- 
+
+
+- (ok) 	 cambiar diagrama compo. definitivo (ciudades)
+- (ok) 	 cambiar diagrama compo. definitivo (llamadas)
+- (me) 	 pull request etl, llamadas, ciudades
+- (ok) 	 esperar correción HLS v9.2
+- (ok) notificar arq. agregar otro svc flume
+- (me) 	 subir a la carperta de cambios el configmap
+- (team) aval sftp	
+- (me) 	 enviar al email los configmaps
+
+
+/MS/SVC/ServiceUsage/RSServiceUsageSpecTrackingCalls/V1/HasIncomingCalls
+/MS/SVC/ServiceUsage/RSServiceUsageSpecTrackingCalls/V1/ValidateOutgoingCalls
+
+@Parameter(description = "Numero de celular a consultar para ciudad recurrente") @RequestParam(required = false) String min,
+      @Parameter(description = "Codigo DANE de la ciudad para la cual se desea verificar el numero") @RequestParam(required = false) String codCiudad,
+      
+la desigualdad social ó la diferencia entre los extremos sociales está directamente relacionada
+con la cantidad de la poblacion. Por tanto entre más poblacion mundial haya, más desigualdad
+habrá
+

@@ -1,0 +1,12 @@
+oc get dc mscustomercitylocation -o wide # show column headers
+oc scale dc msgetldconsumedaoesb --replicas=1
+oc rsync .\docs\ dbserviceusagemongodb-4-4jwf2:/opt/app-root
+oc get quota -n dbserviceusagemongodb    # show pod resources
+oc rollout latest dc/msserviceusagetracketl    # redeploy a dc
+oc create -f configmap-msetlflumecallscount.yaml
+oc delete cm msetlflumecallscount
+oc describe dc <someth>
+oc set env dc/trisk-suspdeact --list 
+oc get routes | findstr trisk
+oc get all
+oc set  env dc trisk-spectrackingcalls --list

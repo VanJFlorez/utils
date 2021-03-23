@@ -1,0 +1,84 @@
+
+docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:8.7.0-community
+
+user: admin
+pass: admin
+
+mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=a68b939d3cc9b6fe5cea8093603c26f3a63bdbdd
+
+## Para generar reportes de coverage
+1. Se debe configurar un generador de reportes en el microservicio. Esta es la configuración para 
+   el generador Jacoco. SonarQube no genera reportes, sólo los analiza:
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.6</version>
+        <configuration>
+          <includes>
+            <include>**/service/*</include>
+          </includes>
+        </configuration>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>report</id>
+                <phase>prepare-package</phase>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+
+   Notar que esta configuracion especifica tambien qué se desea analizar.
+   Documentacion de esto se encuentra aquí
+	https://www.eclemma.org/jacoco/trunk/doc/report-mojo.html#excludes
+   Para generar el reporte que se dejará en target/site basta con correr
+   maven en cualquier acción que pase por la ejecución de los tests por
+   ejemplo:
+	mvn package
+	mvn intall
+
+
+# Para excluir o incluir reportes hay dos alternativas:
+## Desde el mismo projecto
+1. Agregar el siguiente plugin al pom:
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.4.0.905</version>
+      </plugin>
+2. Configurar las exclusiones (no hay config. para inclusiones) de la
+   siguiente manera:
+  <properties>
+    <sonar.coverage.exclusions>
+      **/config/*,
+      **/controller/*,
+      **/dto/*,
+      **/repository/*,
+      **/exception/*,
+      **/validator/*
+      **/*Application.java
+    </sonar.coverage.exclusions>
+    <sonar.exclusions>
+      **/QueryParams.java
+    </sonar.exclusions>
+  </properties>
+
+## Desde la consola web del Sonarqube
+1. Ir a Administracion (parte superior) > Analysis Scope 
+	- Coverage Exclusions
+		**/config/*
+		**/controller/*
+		**/dto/*
+		**/repository/*
+		**/util/*
+		**/exception/*
+		**/validator/*
+	- Ignore Issues on Multiple Criteria
+		' java:S1104 ~ **/QueryParams.java

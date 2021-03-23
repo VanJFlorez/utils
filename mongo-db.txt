@@ -1,0 +1,276 @@
+# Quick Review
+Docs: https://docs.mongodb.com/manual/
+
+Java Driver docs: https://mongodb.github.io/mongo-java-driver/
+
+For a quick review: https://docs.mongodb.com/manual/tutorial/getting-started/
+
+1 record = 1 document = key value pairs = json  
+n records = 1 collection = 1 table  
+Mongo has 'if not exists then create' style and  
+'save this creation if was used' method.  
+'MongoDB stores BSON documents, i.e. data records, in collections; the collections in databases.'  
+
+
+
+## Docker setup 
+Provide this env vars and configure your credentials!
+MONGODB_USER
+MONGODB_PASSWORD
+MONGODB_ADMIN_PASSWORD
+MONGODB_DATABASE
+
+
+Avoid use name such as 'admin' coz can make conflict with the 'admin' that mongo provides
+
+'''
+docker run --rm --name mongodb -e "MONGO_INITDB_ROOT_USERNAME=user" -e "MONGO_INITDB_ROOT_PASSWORD=pass" -p 27017:27017 -d mongo:3.6-xenial
+
+mongo --host localhost --authenticationDatabase  admin -u user -ppass
+'''
+
+
+
+## Basics
+```JavaScript
+mongo -u admin --authenticationDatabase admin --host mongodb-triskdwh -ppass
+
+mongoexport --collection=prevented --db sms --out sampledata.json --jsonArray -u admin --authenticationDatabase admin -ppass
+
+mongoimport.exe --port=27018 --db=db --collection=buahahhahah sampledata.json
+
+db.inventory.insertMany([
+   { item: "journal", qty: 25, status: "A", size: { h: 14, w: 21, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "notebook", qty: 50, status: "A", size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank" ] },
+   { item: "paper", qty: 10, status: "D", size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank", "plain" ] },
+   { item: "planner", qty: 0, status: "D", size: { h: 22.85, w: 30, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "postcard", qty: 45, status: "A", size: { h: 10, w: 15.25, uom: "cm" }, tags: [ "blue" ] }
+]);
+// MongoDB adds an _id field with an ObjectId value if the field is not present in the document
+```
+
+```JavaScript
+mongo> ObjectId('603667d37909a779c0ada397').getTimestamp()
+mongo> db.callscount.drop()
+mongo> db.stats()
+mongo> db.callsCount.stats()
+mongo> db.callsCount.totalSize() // bytes
+mongo> db.callsCount.update({ msisdn: "3999999995" }, { $pop: { 'inCounts': -1, 'outCounts': -1 } } )
+mongo> db.callsCount.update({ msisdn: "3999999995" }, { $pop: { 'inCounts': -1 } } )
+mongo> db.callsCount.find({ 'outCounts.0.captureDate': "19980210" })
+mongo> db.callsCount.find({ 'inCounts': { $size: 3 } }).pretty()
+mongo> db.samplecollection.remove({})
+mongo> db.dropDatabase()
+mongo> show dbs
+mongo> show collections
+mongo> use myDB
+mongo> db.getMongo()
+mongo> db.isMaster()
+mongo> db.stats()
+mongo> db.inventory.count()
+mongo> db.inventory.find({}).pretty() // select * from clause
+mongo> db.inventory.find( { status: "D" } ); // where clause
+mongo> db.inventory.find( { }, { item: 1, status: 1 } ); // select clause
+mongo> db.inventory.explain()
+mongo> db.inventory.aggregate({$limit: 3}).pretty()
+```
+## Capped Collections
+Capped collections are fixed-size collections that support high-throughput operations that insert and retrieve documents based on insertion order. Capped collections work in a way similar to circular buffers: once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
+As an alternative to capped collections, consider MongoDB’s TTL (Time To Live) indexes. As described in Expire Data from Collections by Setting TTL, these indexes allow you to expire and remove data from normal collections based on the value of a date-typed field and a TTL value for the index.
+
+~~~JavaScript
+db.createCollection( "log", { capped: true, size: 100000 } ) // size in bytes
+db.createCollection("log", { capped : true, size : 5242880, max : 5000 } ) // items limit 5000 
+~~~
+
+## Indexing
+Indexes support the efficient resolution of queries. Without indexes, MongoDB must scan every document of a collection to select those documents that match the query statement. This scan is highly inefficient and require MongoDB to process a large volume of data.
+Indexes are special data structures, that store a small portion of the data set in an easy-to-traverse form. The index stores the value of a specific field or set of fields, ordered by the value of the field as specified in the index.
+
+```JavaScript
+db.inventory.createIndex({qty: -1})
+```
+
+## Views (Materialized) and Aggregations
+A MongoDB view is a queryable object whose contents are defined by an aggregation pipeline on other collections or views. MongoDB does not persist the view contents to disk. A view’s content is computed on-demand when a client queries the view. MongoDB can require clients to have permission to query the view. MongoDB does not support write operations against views.
+
+~~~JavaScript
+db.bakesales.insertMany( [
+   { date: new ISODate("2018-12-01"), item: "Cake - Chocolate", quantity: 2, amount: new NumberDecimal("60") },
+   { date: new ISODate("2018-12-02"), item: "Cake - Peanut Butter", quantity: 5, amount: new NumberDecimal("90") },
+   { date: new ISODate("2018-12-02"), item: "Cake - Red Velvet", quantity: 10, amount: new NumberDecimal("200") },
+   { date: new ISODate("2018-12-04"), item: "Cookies - Chocolate Chip", quantity: 20, amount: new NumberDecimal("80") },
+   { date: new ISODate("2018-12-04"), item: "Cake - Peanut Butter", quantity: 1, amount: new NumberDecimal("16") },
+   { date: new ISODate("2018-12-05"), item: "Pie - Key Lime", quantity: 3, amount: new NumberDecimal("60") },
+   { date: new ISODate("2019-01-25"), item: "Cake - Chocolate", quantity: 2, amount: new NumberDecimal("60") },
+   { date: new ISODate("2019-01-25"), item: "Cake - Peanut Butter", quantity: 1, amount: new NumberDecimal("16") },
+   { date: new ISODate("2019-01-26"), item: "Cake - Red Velvet", quantity: 5, amount: new NumberDecimal("100") },
+   { date: new ISODate("2019-01-26"), item: "Cookies - Chocolate Chip", quantity: 12, amount: new NumberDecimal("48") },
+   { date: new ISODate("2019-01-26"), item: "Cake - Carrot", quantity: 2, amount: new NumberDecimal("36") },
+   { date: new ISODate("2019-01-26"), item: "Cake - Red Velvet", quantity: 5, amount: new NumberDecimal("100") },
+   { date: new ISODate("2019-01-27"), item: "Pie - Chocolate Cream", quantity: 1, amount: new NumberDecimal("20") },
+   { date: new ISODate("2019-01-27"), item: "Cake - Peanut Butter", quantity: 5, amount: new NumberDecimal("80") },
+   { date: new ISODate("2019-01-27"), item: "Tarts - Apple", quantity: 3, amount: new NumberDecimal("12") },
+   { date: new ISODate("2019-01-27"), item: "Cookies - Chocolate Chip", quantity: 12, amount: new NumberDecimal("48") },
+   { date: new ISODate("2019-01-27"), item: "Cake - Carrot", quantity: 5, amount: new NumberDecimal("36") },
+   { date: new ISODate("2019-01-27"), item: "Cake - Red Velvet", quantity: 5, amount: new NumberDecimal("100") },
+   { date: new ISODate("2019-01-28"), item: "Cookies - Chocolate Chip", quantity: 20, amount: new NumberDecimal("80") },
+   { date: new ISODate("2019-01-28"), item: "Pie - Key Lime", quantity: 3, amount: new NumberDecimal("60") },
+   { date: new ISODate("2019-01-28"), item: "Cake - Red Velvet", quantity: 5, amount: new NumberDecimal("100") },
+] );
+
+db.bakesales.find({}, {date: 1, _id: 0})
+
+db.bakesales.aggregate( [
+    { $match: { date: { $gte: ISODate("2016-01-25") } } },
+] );
+
+// Not valid! You must select while you aggregate!
+db.bakesales.aggregate([
+    {
+        $project: {
+            datetime: {$dateToString: {format: "%Y-%m",date: "$date"}},
+        }
+    }
+]).find({}, {date: 1})
+
+db.bakesales.aggregate( [
+    { $match: { date: { $gte: ISODate("2016-01-25") } } },
+    { $group: { _id: { $dateToString: { format: "%Y-%m", date: "$date" } }, sales_quantity: { $sum: "$quantity"}, sales_amount: { $sum: "$amount" } } },
+] );
+
+db.bakesales.aggregate( [
+    { $match: { date: { $gte: ISODate("2016-01-25") } } },
+    { $group: { _id: { $dateToString: { format: "%Y-%m", date: "$date" } }, sales_quantity: { $sum: "$quantity"}, sales_amount: { $sum: "$amount" } } },
+    { $merge: { into: "monthlybakesales", whenMatched: "replace" } }
+] );
+
+updateMonthlySales = function(startDate) {
+   db.bakesales.aggregate( [
+      { $match: { date: { $gte: startDate } } },
+      { $group: { _id: { $dateToString: { format: "%Y-%m", date: "$date" } }, sales_quantity: { $sum: "$quantity"}, sales_amount: { $sum: "$amount" } } },
+      { $merge: { into: "monthlybakesales", whenMatched: "replace" } }
+   ] );
+};
+
+updateMonthlySales("2017-02")
+db.monthlybakesales.find({})
+
+// new data
+db.bakesales.insertMany( [
+   { date: new ISODate("2019-01-28"), item: "Cake - Chocolate", quantity: 3, amount: new NumberDecimal("90") },
+   { date: new ISODate("2019-01-28"), item: "Cake - Peanut Butter", quantity: 2, amount: new NumberDecimal("32") },
+   { date: new ISODate("2019-01-30"), item: "Cake - Red Velvet", quantity: 1, amount: new NumberDecimal("20") },
+   { date: new ISODate("2019-01-30"), item: "Cookies - Chocolate Chip", quantity: 6, amount: new NumberDecimal("24") },
+   { date: new ISODate("2019-01-31"), item: "Pie - Key Lime", quantity: 2, amount: new NumberDecimal("40") },
+   { date: new ISODate("2019-01-31"), item: "Pie - Banana Cream", quantity: 2, amount: new NumberDecimal("40") },
+   { date: new ISODate("2019-02-01"), item: "Cake - Red Velvet", quantity: 5, amount: new NumberDecimal("100") },
+   { date: new ISODate("2019-02-01"), item: "Tarts - Apple", quantity: 2, amount: new NumberDecimal("8") },
+   { date: new ISODate("2019-02-02"), item: "Cake - Chocolate", quantity: 2, amount: new NumberDecimal("60") },
+   { date: new ISODate("2019-02-02"), item: "Cake - Peanut Butter", quantity: 1, amount: new NumberDecimal("16") },
+   { date: new ISODate("2019-02-03"), item: "Cake - Red Velvet", quantity: 5, amount: new NumberDecimal("100") }
+] )
+
+updateMonthlySales(new ISODate("2019-01-01"));
+db.monthlybakesales.find().sort( { _id: 1 } )
+~~~
+
+
+
+## Aggregation
+Aggregations operations process data records and return computed results. Aggregation operations group values from multiple documents together, and can perform a variety of operations on the grouped data to return a single result. In SQL count(*) and with group by is an equivalent of MongoDB aggregation.
+
+```JavaScript
+db.agg.insertMany([
+    {
+        title: 'MongoDB Overview', 
+    description: 'MongoDB is no sql database',
+    by_user: 'tutorials point',
+    url: 'http://www.tutorialspoint.com',
+    tags: ['mongodb', 'database', 'NoSQL'],
+    likes: 100
+    },
+    {
+        title: 'NoSQL Overview', 
+    description: 'No sql database is very fast',
+    by_user: 'tutorials point',
+    url: 'http://www.tutorialspoint.com',
+    tags: ['mongodb', 'database', 'NoSQL'],
+    likes: 10
+    },
+    {
+        title: 'Neo4j Overview', 
+    description: 'Neo4j is no sql database',
+    by_user: 'Neo4j',
+    url: 'http://www.neo4j.com',
+    tags: ['neo4j', 'database', 'NoSQL'],
+    likes: 750
+    }
+]);
+
+db.agg.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
+db.agg.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : "$likes"}}}])
+db.agg.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : "$likes"}}}])
+```
+Sql equivalent query for the above use case will be select by_user, count(*) from mycol group by by_user.
+
+## Agreggation pipeline
+
+    db.posts.insertMany(
+    [{
+        "title" : "my first post",
+        "author" : "Jim",
+        "likes" : 5
+    },
+    {
+        "title" : "my second post",
+        "author" : "Jim",
+        "likes" : 2
+    },
+    {
+        "title" : "hello world",
+        "author" : "Joe",
+        "likes" : 3
+    }])
+
+~~~JavaScript
+db.posts.aggregate([
+    {$group: {_id: "$author", total_likes: { $sum: "$likes"}}}
+])
+
+db.posts.aggregate([
+    {$match: { author: "Joe"}},
+    {$group: {_id: "$author", total_likes: { $sum: "$likes"}}}
+])
+~~~
+
+### Pipeline Optimization
+The aggregation pipeline has built in optimization for certain queries. When possible, Mongo will automatically refactor your queries to increase performance.
+e.g first match then sort (auto)
+e.g other autos
+
+    $project + $skip
+    $redact + $match
+    $sort + limit (v4)
+    $limit + $limit
+    $skip + $skip
+    $match + $match
+
+
+
+
+## Collations
+Collation allows users to specify language-specific rules for string comparison, such as rules for lettercase and accent marks.
+
+
+
+
+
+
+
+
+#
+
+AND := ,
+EQ  := :
+if field is an array equality is the same as search in

@@ -1,0 +1,15 @@
+# iterar sobre los nombres
+
+cd lib
+for %%X in ("*.jar") DO (
+  echo installing %%~nX in Maven local repository...
+  call mvn install:install-file -Dfile=%%~nX.jar -DgroupId=co.com.claro.transactionalrisk -DartifactId=commons -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+)
+cd ..
+
+# command aliases
+doskey pods=oc get pods $B findstr $*
+
+# soft links
+(run as admin)
+mklink /d C:\Users\Administrador\Downloads\repo\mine\vc\dist\docs\sketches C:\Users\Administrador\Downloads\repo\mine\vc\docs\sketches\

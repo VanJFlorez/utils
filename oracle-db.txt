@@ -1,0 +1,29 @@
+> docker exec -ti oracle-db bash
+> [oracle@ae428209105d /]$ sqlplus
+
+SQL*Plus: Release 12.2.0.1.0 Production on Thu Jun 18 12:57:41 2020
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Enter user-name: sys as sysdba
+Enter password:
+
+[oracle@ae428209105d /]$ find | grep oradata
+./ORCL/u02/app/oracle/oradata/ORCLCDB/orclpdb1
+
+SQL> ALTER SESSION SET CONTAINER = orclpdb1;
+
+SQL> show con_name;
+
+CON_NAME
+------------------------------
+ORCLPDB1
+SQL> alter database open;
+
+SQL> CREATE USER OT IDENTIFIED BY Orcl1234;
+
+User created.
+
+SQL> GRANT CONNECT, RESOURCE, DBA TO OT;
+
+Grant succeeded.

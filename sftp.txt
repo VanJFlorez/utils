@@ -1,0 +1,1 @@
+docker run -d -v "C:\Files:/home/user/Files" --name sftp -ti -p 22:22 atmoz/sftp user:pass:1001:100
