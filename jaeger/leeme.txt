@@ -1,0 +1,46 @@
+COMO DESPLEGAR JAEGER - ELASTIC - KIBANA en OPENSHIFT
+
+Desplegar elasticsearch
+  docker pull docker.elastic.co/elasticsearch/elasticsearch-oss:7.9.3
+  docker tag docker.elastic.co/elasticsearch/elasticsearch-oss:7.9.3 docker-registry-default.apps.claro.co/desarrolloem/jaeger-elasticsearch:7.9.3
+  docker push docker push docker-registry-default.apps.claro.co/desarrolloem/jaeger-elasticsearch:7.9.3
+
+
+Desplegar jaeger-all-in-one
+  1. docker pull jaegertracing/all-in-one:1.20.0
+  2. docker tag jaegertracing/all-in-one:1.20.0 docker-registry-default.apps.claro.co/desarrolloem/jaeger-aio:1.20.0
+  3. docker push docker-registry-default.apps.claro.co/desarrolloem/jaeger-aio
+  4. configurar las siguientes variables de entorno 
+      - ES_SERVER_URLS=http://jaeger-elasticsearch:9200
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - LOG_LEVEL=debug
+  5. exponer como servicio los siguientes puertos
+      - "16686:16686" 
+      - "6831:6831/udp"
+
+DEBUG NOTES:
+# 0
+[1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+To solve that, execute this in the host machine
+  sysctl -w vm.max_map_count=2621440
+if above does not solve nothing run the image with this environment var
+  environment:
+    - discovery.type=single-node
+e.g.
+  docker run -ti --rm -e discovery.type=single-node --name aabb docker.elastic.co/elasticsearch/elasticsearch-oss:7.9.3
+
+# 1
+Si al ejecutarse el docker-compose completamente aparece el error de que Jaeger no 
+encuentra ningún nodo de elastic search, deben ejecutarse los contenedores así:
+
+1. sudo docker-compose up -d elasticsearch
+2. sudo docker-compose up -d 
+3. sudo docker ps -a
+
+# 2
+El error de que el descriptor 'flattenned' no existe para el campo 'config'
+que aperece en kibana desde elasticsearch se debe a que se está usando una
+version que maneja las caracteristicas pagas de elastic search. Para ello
+basta que las imagenes docker que se estén usando sean la versión opensource.
+Estas versiones se identifican por la sigla 'oss' al final del nombre da la
+imágen.
