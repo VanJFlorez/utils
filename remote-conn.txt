@@ -1,0 +1,3 @@
+- send shortcuts to remote
+- config. in order to use remote mic and audio
+- on fullscreen, When you close de remote connection, the video within the host machine freezes

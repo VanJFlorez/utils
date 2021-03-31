@@ -1,9 +1,27 @@
 
-* https://stackoverflow.com/questions/5102571/how-to-install-maven-artifact-with-sources-from-command-line
-mvn source:jar install -DskipTests
+# INSTALL SOURCE CODE FOR FUTHER DEBUGGING
+  * https://stackoverflow.com/questions/5102571/how-to-install-maven-artifact-with-sources-from-command-line
+  mvn source:jar install -DskipTests
 
-* in order to upload to centralized repository add this settings to the .m2 folder
-* and change the local repo localtion
+# GENERATE JAVADOCS
+Add the following plugin to pom.xml (under build/plugins)
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <excludePackageNames>commons</excludePackageNames>
+                </configuration>
+            </plugin>
+
+Now javadocs can be generated with:
+	
+	mvn javadoc:javadoc
+
+
+# UPLOAD JARS TO FEED
+  * in order to upload to centralized repository add this settings to the .m2 folder
+  * and change the local repo localtion
 
 
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"

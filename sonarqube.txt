@@ -4,9 +4,7 @@ docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000
 user: admin
 pass: admin
 
-mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=a68b939d3cc9b6fe5cea8093603c26f3a63bdbdd
-
-## Para generar reportes de coverage
+# Para generar reportes de cubriento de pruebas unitarias
 1. Se debe configurar un generador de reportes en el microservicio. Esta es la configuración para 
    el generador Jacoco. SonarQube no genera reportes, sólo los analiza:
 
@@ -47,6 +45,7 @@ mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localh
 
 # Para excluir o incluir reportes hay dos alternativas:
 ## Desde el mismo projecto
+0. mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=64914e0f364cb68f218bb3057ed651d8381a987d
 1. Agregar el siguiente plugin al pom:
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
