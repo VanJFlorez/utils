@@ -1,0 +1,11 @@
+if JAXB does not work use wsimport r apache-cxf
+
+WSIMPORT
+$ wsimport -Xnocompile -verbose http://host/location?wsdl
+
+APACHE
+download apache-cxf-3.3.9
+add to PATH
+and then:
+$ wsdl2java http://host/location?wsdl
+	

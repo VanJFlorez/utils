@@ -1,3 +1,28 @@
+#### 210421
+01 CAMBIOSIM
+nested exception is java.lang.NumberFormatException: For input string: "96ad5a2a"
+
+02 SUSPENDIDA
+HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+(desarrollo ok)
+
+03 CAMBIOMIN
+nested exception is java.lang.NumberFormatException: For input string: "96ad5a2a"
+
+
+06 MINEMAIL
+SQLRecoverableException: IO Error: The Network Adapter could not establish the connection
+(desarrollo ok)
+
+Juan Pablo
+ok - supendida
+ok - lineadoc
+ok - docemail
+ok - emailmin
+
+
+
+
 
 #### TOOL UTILS
 - mongo

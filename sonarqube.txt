@@ -3,8 +3,20 @@ docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000
 
 user: admin
 pass: admin
+# PARA GENERA REPORTES
+mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=64914e0f364cb68f218bb3057ed651d8381a987d
 
-# Para generar reportes de cubriento de pruebas unitarias
+# Si esta usando quarkus
+Estar pendiente de las versiones, pues la libreria de jacoco no está en todas la versiones de Quarkus ni 
+tampoco es compatible. Para una guía, se puede ver aquí:
+
+	https://quarkus.io/guides/tests-with-coverage#quarkus-jacoco-jacoco-config_quarkus.jacoco.data-file
+
+	Para que quarkus tome los reportes de pruebas unitarias se debe configurar el plugin así:
+		quarkus.jacoco.data-file=jacoco.exec
+		quarkus.jacoco.report-location=site/jacoco
+
+# Para configurar reportes de cubriento de pruebas unitarias
 1. Se debe configurar un generador de reportes en el microservicio. Esta es la configuración para 
    el generador Jacoco. SonarQube no genera reportes, sólo los analiza:
 
@@ -41,11 +53,14 @@ pass: admin
    ejemplo:
 	mvn package
 	mvn intall
+   Para el error de que el .exec no existe y portanto se salta la generación
+   de reportes, ejecutar este comando (se deben correr los test con surefire)
+	mvn test
+	mvn clean test jacoco:report
 
 
 # Para excluir o incluir reportes hay dos alternativas:
 ## Desde el mismo projecto
-0. mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=64914e0f364cb68f218bb3057ed651d8381a987d
 1. Agregar el siguiente plugin al pom:
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>

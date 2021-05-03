@@ -1,1 +1,5 @@
+# delete ignored files
+git clean -dfX
+
+# delete untracked files ?
 git rm -r --cached target
