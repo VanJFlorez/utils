@@ -4,7 +4,7 @@ docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000
 user: admin
 pass: admin
 # PARA GENERA REPORTES
-mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=64914e0f364cb68f218bb3057ed651d8381a987d
+mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=047e94c56fae3d94e0fb506020e4871e150ac480
 
 # Si esta usando quarkus
 Estar pendiente de las versiones, pues la libreria de jacoco no está en todas la versiones de Quarkus ni 
@@ -20,30 +20,49 @@ tampoco es compatible. Para una guía, se puede ver aquí:
 1. Se debe configurar un generador de reportes en el microservicio. Esta es la configuración para 
    el generador Jacoco. SonarQube no genera reportes, sólo los analiza:
 
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.6</version>
-        <configuration>
-          <includes>
-            <include>**/service/*</include>
-          </includes>
-        </configuration>
-        <executions>
-            <execution>
-                <goals>
-                    <goal>prepare-agent</goal>
-                </goals>
-            </execution>
-            <execution>
-                <id>report</id>
-                <phase>prepare-package</phase>
-                <goals>
-                    <goal>report</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
+    <build>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.6</version>
+            <configuration>
+            <includes>
+                <include>**/service/*</include>
+            </includes>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </build>
+
+    <reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<!-- select non-aggregate reports -->
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 
    Notar que esta configuracion especifica tambien qué se desea analizar.
    Documentacion de esto se encuentra aquí

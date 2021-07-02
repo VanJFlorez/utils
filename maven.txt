@@ -1,3 +1,9 @@
+# Factory customs
+mvn clean org.jacoco:jacoco-maven-plugin:report install -DskipTests
+mvn clean install -DskipTests
+mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
+
+
 # FAT JAR (with dependencies)
 mvn clean compile assembly:single
 
