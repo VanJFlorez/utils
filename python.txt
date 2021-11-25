@@ -1,1 +1,22 @@
+>--------------------------------------------------------------------
+# HTTP Server
 python -m http.server
+
+>--------------------------------------------------------------------
+# YT Downloader
+$ pip install pytube
+
+## Download separately, then merge
+$ pytube -l <yt-url> 
+$ pytube --itag <itag-video> 
+$ pytube --itag <itag-audio> 
+$ ffmpeg merge?
+
+## Download auto merge, ffmpeg shuld available in '.' folder.
+$ install ffmpeg (go to this guide...)
+$ pytube --ffmpeg 1080p <yt-url>
+
+if DECRYPTION_FAILED_OR_BAD_RECORD_MAC happens try to connect
+your computer with Ethernet, no WiFi.
+
+

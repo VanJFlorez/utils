@@ -1,1 +1,8 @@
+. Install
+Download build: https://www.gyan.dev/ffmpeg/builds/
+Extract. 
+ffmpeg is located in 'bin' folder.
+Add to PATH
+Done!
+
 >ffmpeg -i "Homophonic Cipher - Brute Force count.mp4" -vf "transpose=1" "Homophonic Cipher - Brute Force count.mov"

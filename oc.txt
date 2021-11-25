@@ -1,3 +1,5 @@
+
+oc delete all --selector app=mstrackingcallscount
 oc edit ...
 oc get cm trisk-validatedocemail -o yaml
 oc get dc mscustomercitylocation -o wide # show column headers

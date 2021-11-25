@@ -1,10 +1,13 @@
 
-docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:8.7.0-community
+docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:8.9.2-community
 
 user: admin
 pass: admin
-# PARA GENERA REPORTES
-mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=047e94c56fae3d94e0fb506020e4871e150ac480
+# PARA GENERAR REPORTES
+# v8.7.0 (con token)
+mvn sonar:sonar -Dsonar.projectKey=xxxxxxxxxxxxxx -Dsonar.host.url=http://localhost:9000 -Dsonar.login=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# v8.9.0 (con user pass)
+mvn sonar:sonar -Dsonar.projectKey=MSServiceUsageSpecTrackingCalls -Dsonar.host.url=http://localhost:9000 -Dsonar.login=xxxxxxxxxxxxxxxxxxx -Dsonar.password=xxxxxxxxxxxxxxxxxx
 
 # Si esta usando quarkus
 Estar pendiente de las versiones, pues la libreria de jacoco no está en todas la versiones de Quarkus ni 

@@ -24,7 +24,7 @@ MONGODB_DATABASE
 Avoid use name such as 'admin' coz can make conflict with the 'admin' that mongo provides
 
 '''
-docker run --rm --name mongodb -e "MONGO_INITDB_ROOT_USERNAME=user" -e "MONGO_INITDB_ROOT_PASSWORD=pass" -p 27017:27017 -d mongo:3.6-xenial
+docker run --rm --name mongodb -e "MONGO_INITDB_ROOT_USERNAME=user" -e "MONGO_INITDB_ROOT_PASSWORD=pass" -p 27017:27017 -d mongo:4.4
 
 mongo --host localhost --authenticationDatabase  admin -u user -ppass
 '''
@@ -50,6 +50,8 @@ db.inventory.insertMany([
 ```
 
 ```JavaScript
+mongo> var c = db.triskLogs.find({ _id: ObjectId('60f9aba541dad12479c07c5d')})
+mongo> while (true) { db.triskLogs.insert({ "attr": "1", "atts": "2"}) }
 mongo> ObjectId('603667d37909a779c0ada397').getTimestamp()
 mongo> db.callscount.drop()
 mongo> db.stats()

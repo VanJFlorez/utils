@@ -1,3 +1,11 @@
+# pretty log
+git log --pretty=format:"%at %ai %h %s >> %an"
+- unix timestamp
+- date
+- hash
+- message
+- author
+
 # delete ignored files
 git clean -dfX
 

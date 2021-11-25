@@ -1,3 +1,10 @@
+Java Developer
+Tata Vision, Mision, Enfoque
+10pm ~ 1pm
+
+AUDITCOLLECTOR_HTTP_HOST trisk-auditlogadapter
+AUDITCOLLECTOR_HTTP_PORT 8099
+
 #### 210421
 01 CAMBIOSIM
 nested exception is java.lang.NumberFormatException: For input string: "96ad5a2a"

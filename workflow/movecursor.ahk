@@ -4,14 +4,15 @@ CoordMode,Mouse,Screen
 <^>!x::
 	MouseGetPos,X,Y
 	Msgbox, Your Cursor is at X: %X% Y: %Y%
-<^>!a::
+<!F1::
 	DllCall("SetCursorPos", int, -514, int, -28)
 	return
-<^>!s::
+<!F2::
 	DllCall("SetCursorPos", int, 665, int, 397)
 	return
-<^>!d::
+<!F3::
 	DllCall("SetCursorPos", int, 2265, int, 262)
 	return
+F1::return
 	
 <^>!Esc::ExitApp

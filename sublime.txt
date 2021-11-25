@@ -1,0 +1,1 @@
+Ctrl + Alt + ARROW		:: multimple cursor

@@ -1,0 +1,8 @@
+> Server -------------------------------------------------------------------
+$ docker run --name postgres -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres:9.6-bullseye
+$ docker exec -ti postgres bash
+# psql
+
+> Client -------------------------------------------------------------------
+. download the full installer https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+. 

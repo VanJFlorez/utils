@@ -1,0 +1,2 @@
+# in order to keep alive the container busybox must be run with -ti option 
+docker run --network es_default --name bb -ti --rm -v es_certs:/certs -v C:\Users\Downloads:/downloads busybox

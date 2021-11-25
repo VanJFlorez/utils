@@ -1,0 +1,14 @@
+Ctrl + W 				:: select word
+Ctrl + D 				:: duplicate
+Ctrl + Shift + L 		:: delete line
+Alt + Shift + ARROW		:: move line
+Ctrl + Shift + NUM		:: put bookmark
+Shift + F11				:: show bookmarks
+
+Shift + F10				:: run
+
+Ctrl + B				:: go to definition
+Ctrl + H				:: type hierarchy
+Ctrl + F12				:: method overview
+Ctrl + Alt + H 			:: call hierarchy
+Ctrl + Alt + ARROW		:: previous line in editor
