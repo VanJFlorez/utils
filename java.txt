@@ -1,3 +1,13 @@
+# disassemble bytecode
+Only admits .class files ... so you must first compile your code:
+
+	$ javac OtherClass.java
+
+and the check the bytecode...
+
+	$ javap -c -v java.util.LinkedList
+	$ javap -c -v OtherClass
+
 # Remote debugging
 SERVER
 	java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8000 OurApplication

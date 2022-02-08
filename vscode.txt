@@ -1,0 +1,8 @@
+# prev/next cursor location
+## win
+Alt + arrow-left/arrow-right
+## osx
+Ctrl + /Alt + -
+## lnx
+Ctrol + Alt/Shift + -
+

@@ -11,3 +11,6 @@ git clean -dfX
 
 # delete untracked files ?
 git rm -r --cached target
+
+# see current changes
+git diff HEAD <filename>

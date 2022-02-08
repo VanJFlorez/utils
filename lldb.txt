@@ -1,0 +1,36 @@
+# configure and run
+file ./path/to/file
+run
+
+## breakpoints management
+breakpoint set --file source_file.cc --line 
+. delete all
+breakpoint delete
+. delete one
+breakpoint delete 1
+
+## control debugging exec
+. run until next breakpoint 
+thread continue
+. execute one level inside 
+thread step-in
+si
+. get out from current frame
+thread step-out
+finish
+. execute current source line
+thread step-over
+c
+. execute up to the given line
+thread until 93
+
+## clean output 
+shell clear
+
+## show the current line 
+frame select
+f
+
+# list source code (only 10 lines)
+l
+list

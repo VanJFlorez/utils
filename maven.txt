@@ -58,11 +58,11 @@ Now javadocs can be generated with:
                       https://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
     <server>
-      <id>adevops-claro-com-co-clarocolombia-poliedro_moderno</id>
+      <id>devops-server-hostname-location</id>
       <username>Poliedro_Moderno</username>
       <!-- Treat this auth token like a password. Do not share it with anyone, including Microsoft support. -->
       <!-- The generated token expires on or before 6/7/2021 -->
-      <password>oowvqygwhpp2ntm62tltcmjh7mkjsuncsoo7uou7yscyllb4el4a</password>
+      <password>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</password>
     </server>
   </servers>
     <!-- localRepository
@@ -70,6 +70,6 @@ Now javadocs can be generated with:
    |
    | Default: ${user.home}/.m2/repository -->
  
-   <localRepository>C:\Users\Administrador\Downloads\.m2</localRepository>
+   <localRepository>C:\Users\myuser\.m2</localRepository>
     
 </settings>

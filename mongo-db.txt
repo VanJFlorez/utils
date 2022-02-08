@@ -187,16 +187,16 @@ db.agg.insertMany([
     {
         title: 'MongoDB Overview', 
     description: 'MongoDB is no sql database',
-    by_user: 'tutorials point',
-    url: 'http://www.tutorialspoint.com',
+    by_user: 'tt tt',
+    url: 'http://www.ttt.com',
     tags: ['mongodb', 'database', 'NoSQL'],
     likes: 100
     },
     {
         title: 'NoSQL Overview', 
     description: 'No sql database is very fast',
-    by_user: 'tutorials point',
-    url: 'http://www.tutorialspoint.com',
+    by_user: 'tt tt',
+    url: 'http://www.ttt.com',
     tags: ['mongodb', 'database', 'NoSQL'],
     likes: 10
     },
