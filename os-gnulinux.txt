@@ -1,0 +1,10 @@
+
+openssl genrsa -des -out ca.key 2048
+
+# same result
+cat ca_ex.key | base64 -d | xxd
+cat ca_ex.key | base64 -d | od -t x1z
+
+cat ca_ex.key | base64 -d | xxd -p > key.hex
+
+cat /etc/*-release

@@ -13,4 +13,32 @@ git clean -dfX
 git rm -r --cached target
 
 # see current changes
-git diff HEAD <filename>
+. more change details
+    git difftool --tool=vimdiff
+. see changes compared with staged
+    git difftool --cached --tool=vimdiff
+. less change details
+    git diff HEAD <filename>
+. list available diff tools 
+    git difftool --tool-help
+. list changed files from previous commit
+    git diff HEAD HEAD~1 --name-only
+
+# garbage collector
+. fix cannot lock ref
+. fix unable to update ref
+.. for both give override = no. (n)
+git gc --prune=now
+
+# pocket save
+. stash only a part of your changes
+    git stash push -m uichanges *.css *.jsp
+    git stash push -m basereqs
+
+# get the names of changed files
+git diff --name-only HEAD HEAD~1
+
+# remove/untrack a file from repository
+git rm --cached .\.gitignore
+
+

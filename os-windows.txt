@@ -1,0 +1,58 @@
+This shortcuts works for latam. keyboard layouts...
+
+§ fullscreen (this will be in a desktop apart...)
+Cmd + Ctrl + F
+
+§ open file
+Cmd + arrow-down
+
+§ show task bar
+Ctrl + F2
+
+§ show dock
+Ctrl + F3
+
+§ delete file
+Cmd + return
+
+§ rename file
+Enter
+
+§ go to parent folder
+Cmd + arrow-up
+
+§ spotlight search
+Cmd + Space
+
+§ select text to end/begin of line
+Cmd + Shift + arrow-left
+Cmd + Shift + arrow-right
+
+§ select word
+Opt + Shift + arrow-left
+Opt + Shift + arrow-right
+
+§ change terminal colors
+(focus on terminal)
+Cmd + I
+(Profile tab)
+
+§ type other symbols
+Opt + [1-9]
+
+§ quit app (also works on alt+tab)
+Ctrl + Q
+
+§ close app instance
+Ctrl + W
+
+§ config. menu
+Cmd + ,
+
+§ switch app windows 
+Cmd + ´
+
+## Record macos sounds install this:
+https://github.com/kyleneideck/BackgroundMusic/
+
+
