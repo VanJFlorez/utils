@@ -8,3 +8,7 @@ cat ca_ex.key | base64 -d | od -t x1z
 cat ca_ex.key | base64 -d | xxd -p > key.hex
 
 cat /etc/*-release
+ 
+
+20230506
+

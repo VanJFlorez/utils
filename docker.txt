@@ -1,3 +1,17 @@
+Container Management
+====================
+* List containers
+	```docker container ls```
+
+Image Management
+================
+* List images stored in local registry
+	```docker image ls```
+
+Execution Management
+====================
+* Lis
+
 ## docker compose
 docker-compose up
 docker-compose up -d
@@ -7,7 +21,7 @@ docker-compose rm -f
 - OpenShift yaml HASH = CloudRegistry.digestHASH
 - CloudRegistry.IdentifierHASH = LocalRegistry.Parent
 - CloudRegistry.digestHASH = LocalRegistry.RepoDigests
-
+|
 ##	
 - if you are in Windows use " instead '
 - use --rm for quick tests, the container will exit until you disconnect
